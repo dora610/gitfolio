@@ -49,7 +49,10 @@ function Header() {
                 </li>
                 <li className='nav-item'>
                   <span
-                    onClick={() => setUser(null)}
+                    onClick={() => {
+                      setUser(null);
+                      sessionStorage.removeItem('user');
+                    }}
                     className='nav-link'
                     style={{ cursor: 'pointer' }}
                   >

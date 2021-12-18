@@ -21,6 +21,13 @@ function Signup() {
       .then((userCreds) => {
         toast.success('successfully signed up 🤘');
         setUser({ email: userCreds.user.email, uid: userCreds.user.uid });
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({
+            email: userCredential.user?.email,
+            uid: userCredential.user?.uid,
+          })
+        );
         navigate('/');
       })
       .catch((err) => {

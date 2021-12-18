@@ -24,6 +24,13 @@ function Signin() {
           uid: userCredential.user?.uid,
         });
         toast.success('Successfully signed in 🤘');
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify({
+            email: userCredential.user?.email,
+            uid: userCredential.user?.uid,
+          })
+        );
         navigate('/');
       })
       .catch((error) => {

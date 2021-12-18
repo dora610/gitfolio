@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import Header from './layouts/Header';
@@ -17,9 +17,12 @@ const app = initializeApp(fireBaseConfig);
 const analytics = getAnalytics(app);
 
 function App() {
-  // const [state, dispatch] = useReducer(UserReducer, { userName: 'john' });
-
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    let userJson = sessionStorage.getItem('user');
+    userJson && setUser(JSON.parse(userJson));
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
