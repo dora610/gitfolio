@@ -1,31 +1,46 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import UserCard from './UserCard';
-import { UserContext } from '../context/userContext';
-import axios from 'axios';
 import { Button, Col, Container, Input, InputGroup, Row } from 'reactstrap';
 
-function Home() {
-  const { user, setUser } = useContext(UserContext);
-  let testUser = 'dora610';
+import useGithubData from '../hooks/useGithubData';
+import RepoDetails from './RepoDetails';
 
-  useEffect(() => {
-    /* axios({
-      method: 'GET',
-      url: `https://api.github.com/users/${testUser}`,
-    }).then((response)=> console.log(response)); */
-    console.log('fetch details');
-  }, []);
+function Home() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [{ data, isLoading, error }, setUserName] = useGithubData('');
 
   return (
     <Container>
       <Row className='mt-3'>
         <Col md='5'>
           <InputGroup>
-            <Input type='text' placeholder='Search with a user name' />
-            <Button className='btn-primary ml-2'>Search User</Button>
+            <Input
+              type='text'
+              placeholder='Search with a user name'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Button
+              className='btn-primary ml-2'
+              onClick={(e) => setUserName(searchTerm)}
+            >
+              Search User
+            </Button>
           </InputGroup>
+          {error ? (
+            <p className='text-error'>{error}</p>
+          ) : isLoading ? (
+            <h2 className='text-warning'>Loading...</h2>
+          ) : (
+            <UserCard user={data?.userData} />
+          )}
         </Col>
-        <Col md='7'></Col>
+        {!error && (
+          <Col md='7'>
+            <RepoDetails repos={data?.repoData} />
+          </Col>
+        )}
       </Row>
     </Container>
   );

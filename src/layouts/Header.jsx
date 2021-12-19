@@ -20,7 +20,7 @@ function Header() {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <div className='container-fluid d-flex justify-content-between'>
-        <Link to='/profile' className='navbar-brand active'>
+        <Link to='/' className='navbar-brand active'>
           Home
         </Link>
         <button
@@ -43,9 +43,7 @@ function Header() {
             {user?.email ? (
               <>
                 <li className='nav-item'>
-                  <Link to='/profile' className='nav-link'>
-                    Welcome {user?.email}
-                  </Link>
+                  <Link to='/profile'>Welcome {user?.email}</Link>
                 </li>
                 <li className='nav-item'>
                   <span
